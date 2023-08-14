@@ -1,4 +1,4 @@
-import { connect } from "@dagger.io/dagger";
+import { connect } from "https://esm.sh/@dagger.io/dagger";
 
 connect(async (client) => {
   const ctr = client.container().from("oven/bun")
