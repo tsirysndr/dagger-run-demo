@@ -1,0 +1,20 @@
+name: Dagger Demo
+on:
+  push:
+    branches:
+      - main
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Setup Dagger
+        run: |
+          curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=0.8.1 sh
+          sudo mv bin/dagger /usr/local/bin
+          dagger version
+      - name: Run Dagger Pipelines
+        run: dagger run node ci.mjs
