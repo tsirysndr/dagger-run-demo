@@ -15,4 +15,4 @@ jobs:
           sudo mv bin/dagger /usr/local/bin
           dagger version
       - name: Run Dagger Pipelines
-        run: dagger run deno run -A ci.js
+        run: dagger run deno run -A demo.js
