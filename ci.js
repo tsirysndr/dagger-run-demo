@@ -3,16 +3,13 @@ import { connect } from "https://esm.sh/@dagger.io/dagger";
 connect(async (client) => {
   const ctr = client
     .container()
-    .from("oven/bun")
-    .withDirectory(
-      "/app",
-      client.host().directory(".", { exclude: ["node_modules/", ".git"] })
-    )
+    .from("denoland/deno")
+    .withDirectory("/app", client.host().directory(".", { exclude: [".git"] }))
     .withWorkdir("/app")
-    .withExec(["bun", "install"])
-    .withExec(["bun", "test"]);
+    .withExec(["deno", "test", "-A", "--coverage=coverage", "--lock-write"])
+    .withExec(["sh", "-c", "deno coverage ./coverage --lcov > coverage.lcov"]);
 
-  await ctr.file("/app/calc.test.js").export("./calc.test.new.js");
+  await ctr.file("/app/coverage.lcov").export("./coverage.lcov");
 
   console.log(await ctr.stdout());
   console.log(await ctr.stderr());
